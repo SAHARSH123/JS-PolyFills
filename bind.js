@@ -1,5 +1,7 @@
 Function.prototype.bindDemo = function (currentContext = {}, ...args) {
-  //this here refers to function
+  if (typeof this !== "function") {
+    throw new Error(this + "cannot be bound as it's not callable");
+  }
   currentContext.fn = this;
   return function (...newArgs) {
     currentContext.fn(...args, ...newArgs);

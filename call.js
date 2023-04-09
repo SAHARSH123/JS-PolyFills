@@ -1,23 +1,22 @@
-Function.prototype.calll = function (currentContext = {}, ...args) {
-  currentContext.fn = this;
-  console.log(args);
-  currentContext.fn(args);
-};
-const person = {
-  firstName: "Arvind",
-};
-
-const son = {
-  firstName: "Saharsh",
+Function.prototype.call = function (context = {}, ...args) {
+  if (typeof this !== "function") {
+    throw new Error(this + "it's not callable");
+  }
+  context.fn = this;
+  context.fn(...args);
 };
 
-//here it refers to rest because it's converting to array
-function getName(...args) {
-  console.log(this.firstName + " " + args);
-}
+var name = "TestUser";
 
-// getName.call(person, "kumar", "jain");
-// getName.call(son, "kumar", "jain");
+const obj = {
+  name: "Saharsh",
+  getName: function (...args) {
+    console.log(args);
+    console.log(this.name);
+    return this.name;
+  },
+};
 
-getName.calll(person, "kumar", "jain");
-getName.calll(son, "kumar", "jain");
+let fn = obj.getName;
+fn.call(this, "firstName", "SecondName");
+fn.call(obj, "SecondName", "FirstName");
